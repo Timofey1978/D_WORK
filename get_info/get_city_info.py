@@ -11,7 +11,7 @@ def city_info(city_name):
                                             'need_all': 0,
                                             'count': 1
                                             })
-    if city['count'] == 0:
+    if city is False or city['count'] == 0:
         return False
     else:
         for item in city['items']:
