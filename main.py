@@ -30,8 +30,14 @@ for event in longpoll.listen():
                     if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                         msg = event.text.lower()
                         city_add = city_info(msg) #передаёт название города в get_city_info, возвращает словарь id и title города
-                        city_ad_db(city_add, user_id) #добавляет в БД недостающие данные по городу(from database import city_ad_db)
-                        break
+                        #если была ошибка, то повторно запрашивает название города
+                        if city_add == False:
+                            send_some_msg(user_id, f'{name}, некорректно указан город, '
+                                                    f'введи название города, например:    Москва    , '
+                                                   f'затем введи    ПОИСК   для подбора пары')
+                        else:
+                            city_ad_db(city_add, user_id) #добавляет в БД недостающие данные по городу(from database import city_ad_db)
+                            break
             else:
                 print('город указан в профиле')
                 send_some_msg(user_id, f'Привет,{name}, введи  ПОИСК   для подбора пары')
