@@ -31,7 +31,7 @@ for event in longpoll.listen():
                         msg = event.text.lower()
                         city_add = city_info(msg) #передаёт название города в get_city_info, возвращает словарь id и title города
                         #если была ошибка, то повторно запрашивает название города
-                        if city_add == False:
+                        if city_add is False:
                             send_some_msg(user_id, f'{name}, некорректно указан город, '
                                                     f'введи название города, например:    Москва    , '
                                                    f'затем введи    ПОИСК   для подбора пары')
