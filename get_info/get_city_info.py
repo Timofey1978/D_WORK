@@ -11,10 +11,18 @@ def city_info(city_name):
                                             'need_all': 0,
                                             'count': 1
                                             })
-    if city is False or city['count'] == 0:
+    try:
+        print(city['items'])
+    except KeyError as e:
+        print(f' ошибка {e}')
+        city['items'] = None
         return False
     else:
-        for item in city['items']:
-            city_search['city_id'] = item['id']
-            city_search['city_title'] = item['title']
-        return city_search
+        if city['count'] == 0:
+            print('некорректно указан город')
+            return False
+        else:
+            for item in city['items']:
+                city_search['city_id'] = item['id']
+                city_search['city_title'] = item['title']
+            return city_search
