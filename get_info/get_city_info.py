@@ -1,5 +1,6 @@
 import vk_api
 from config import token_user
+from get_info.validator import validator_try
 ''' Возвращает ID и название города через msg(city_name) запрос у пользователя в main,
 если город проживания не был указан.'''
 def city_info(city_name):
@@ -11,18 +12,21 @@ def city_info(city_name):
                                             'need_all': 0,
                                             'count': 1
                                             })
-    try:
-        print(city['items'])
-    except KeyError as e:
-        print(f' ошибка {e}')
-        city['items'] = None
+    if validator_try(city, 'items') or validator_try(city, 'count') is False:
+        print('ошибка city key')
+        return None
+    # try:
+    #     city = city['items']
+    # except KeyError as e:
+    #     print(f' ошибка {e}')
+    #     city['items'] = None
+    #     return False
+
+    if city['count'] == 0:
+        print('некорректно указан город')
         return False
     else:
-        if city['count'] == 0:
-            print('некорректно указан город')
-            return False
-        else:
-            for item in city['items']:
-                city_search['city_id'] = item['id']
-                city_search['city_title'] = item['title']
-            return city_search
+        for item in city['items']:
+            city_search['city_id'] = item['id']
+            city_search['city_title'] = item['title']
+        return city_search
