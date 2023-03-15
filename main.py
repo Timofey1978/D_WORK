@@ -24,19 +24,20 @@ for event in longpoll.listen():
             if parametr_search_city(user_id) is False:
                 print('город не указан в профиле')
                 send_some_msg(user_id, f'Привет, {name}, на твоей странице не указан город проживания, '
-                                       f'введи название города, например:    Москва    , '
-                                       f'затем введи    ПОИСК   для подбора пары')
+                                       f'введи название города, например:    Москва    ')
                 for event in longpoll.listen():
                     if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                         msg = event.text.lower()
                         city_add = city_info(msg) #передаёт название города в get_city_info, возвращает словарь id и title города
-                        #если была ошибка, то повторно запрашивает название города
-                        if city_add is False:
+                        if city_add is False: #если город не найден,то повторно запрашивает название города
                             send_some_msg(user_id, f'{name}, некорректно указан город, '
-                                                    f'введи название города, например:    Москва    , '
-                                                   f'затем введи    ПОИСК   для подбора пары')
+                                                    f'введи название города, например:    Москва    ')
+                        elif city_add == None: #если возникла ошибка по ключам , то запрашивает начать всё сначала
+                            send_some_msg(user_id, f'{name}, возникла ошибка, начни всё сначала')
+                            break
                         else:
                             city_ad_db(city_add, user_id) #добавляет в БД недостающие данные по городу(from database import city_ad_db)
+                            send_some_msg(user_id, f'{name}, введи  ПОИСК   для подбора пары')
                             break
             else:
                 print('город указан в профиле')
@@ -48,7 +49,7 @@ for event in longpoll.listen():
             if search_candidates(par, user_id) is False:#возвращает значение, когда поиск подходящих candidates закончен
                 print('candidates подобраны')
                 update_appeal(user_id) #обновляет в таблице пользователя кол-во обращений
-                send_some_msg(user_id, f'Бот  VKinder подобрал тебе варианты, просмотри их,'
+                send_some_msg(user_id, f'Бот  VKinder подобрал тебе варианты кандидатур и скинул их,'
                                        f'если хочешь больше вариантов, то введи    ПОИСК    , '
                                        f'если хочешь завершить, то введи    ВЫХОД')
         elif msg == "выход":
