@@ -43,5 +43,5 @@ class Candidates(Base):
     users_of_VKinder = relationship(Users_of_VKinder, backref="candidates")
 
 def create_tables(engine):
-    # Base.metadata.drop_all(engine)
+    Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
