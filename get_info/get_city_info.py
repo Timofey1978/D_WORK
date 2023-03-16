@@ -12,7 +12,7 @@ def city_info(city_name):
                                             'need_all': 0,
                                             'count': 1
                                             })
-    if validator_try(city, 'tems') is False or validator_try(city, 'count') is False:
+    if validator_try(city, 'items') is False or validator_try(city, 'count') is False:
         print('ошибка city key')
         return None
     # try:

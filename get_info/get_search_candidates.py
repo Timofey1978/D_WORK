@@ -2,6 +2,8 @@ from config import token_user
 import vk_api
 
 from bot import send_some_msg
+
+from get_info.validator import validator_try
 from get_info.get_age_info import get_age
 from get_info.get_photo_info import photo_info
 from database import availability_candidate, add_candidate, get_id_user_table
@@ -40,6 +42,7 @@ def search_candidates(par, user_id):
                                                     'city': city,
                                                     'fields': 'sex, bdate, city, has_photo, status'
                                                     })
+    print(candidates_response)
     for item in candidates_response['items']:
         if item['is_closed'] is False and len(item['bdate']) > 7 and photo_info(item['id']) is not False:
             if (availability_candidate(item['id']) is False): #проверка на наличие в таблице candidates

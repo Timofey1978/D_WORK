@@ -21,6 +21,8 @@ def users_get(user_id):
                                                 'user_ids': user_id,
                                                 'fields': 'sex, bdate, city, relation'
                                                 })
+    print(user_info_response)
+
     name = user_info_response[0]['first_name']
 
     if availability_user(user_info_response[0]['id']) is False:  # возвращает значение на наличие пользователя в базе данных
