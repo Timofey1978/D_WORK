@@ -2,6 +2,7 @@ from config import token_user
 
 import vk_api
 
+from get_info.validator import validator_try
 from config import token_access_group
 
 vk_session = vk_api.VkApi(token=token_access_group, api_version='5.131')
@@ -18,6 +19,10 @@ def photo_info(candidate_id):
                                         'album_id': 'profile',
                                         'extended': 1
                                         })
+    if validator_try(photos, 'items') is False or validator_try(photos, 'count') is False:
+        print('ошибка photos key')
+        return False
+
     if photos['count'] < 3:
         return False
 
