@@ -42,7 +42,10 @@ def search_candidates(par, user_id):
                                                     'city': city,
                                                     'fields': 'sex, bdate, city, has_photo, status'
                                                     })
-    print(candidates_response)
+
+    if validator_try(candidates_response, 'items') is False:
+        print('ошибка candidates_response')
+        return None
     for item in candidates_response['items']:
         if item['is_closed'] is False and len(item['bdate']) > 7 and photo_info(item['id']) is not False:
             if (availability_candidate(item['id']) is False): #проверка на наличие в таблице candidates
