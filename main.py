@@ -20,6 +20,9 @@ for event in longpoll.listen():
         user_id = event.user_id
         if msg == "начать" or msg == "hi" or msg == "hello" or msg == "привет" or msg == "хай":
             users_get(user_id)
+            if users_get(user_id) == None: #если возникла ошибка по ключам , то запрашивает начать всё сначала
+                send_some_msg(user_id, f'возникла ошибка, начни всё сначала')
+                break
             name = users_get(user_id)[1]
             if parametr_search_city(user_id) is False:
                 print('город не указан в профиле')
@@ -52,6 +55,9 @@ for event in longpoll.listen():
                 send_some_msg(user_id, f'Бот  VKinder подобрал тебе варианты кандидатур и скинул их,'
                                        f'если хочешь больше вариантов, то введи    ПОИСК    , '
                                        f'если хочешь завершить, то введи    ВЫХОД')
+            if search_candidates(par, user_id) == None: #если возникла ошибка по ключам , то запрашивает начать всё сначала
+                send_some_msg(user_id, f'возникла ошибка, начни всё сначала')
+                break
         elif msg == "выход":
             send_some_msg(event.user_id, "Пока... :))")
             break
