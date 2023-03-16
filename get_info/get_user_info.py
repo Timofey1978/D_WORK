@@ -4,6 +4,7 @@ import vk_api
 
 from config import token_user
 
+from get_info.validator import validator_try
 from get_info.get_age_info import get_age
 
 ''' Проверяет на наличие пользователя приложением VKinder в Базе Данных, 
@@ -21,7 +22,10 @@ def users_get(user_id):
                                                 'user_ids': user_id,
                                                 'fields': 'sex, bdate, city, relation'
                                                 })
-    print(user_info_response)
+
+    if validator_try(user_info_response, 0) is False:
+        print('ошибка user_info_response')
+        return None
 
     name = user_info_response[0]['first_name']
 
